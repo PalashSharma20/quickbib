@@ -19,6 +19,17 @@ Vue.use(VueRouter);
 
 // Set Vue authentication
 axios.defaults.baseURL = `/api`;
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) {
+      Vue.auth.logout({
+        redirect: "/login"
+      });
+    }
+    return Promise.reject(error);
+  }
+);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuth, auth);
 

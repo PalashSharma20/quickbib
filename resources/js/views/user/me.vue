@@ -48,7 +48,7 @@ export default {
   name: "MyAccount",
   data() {
     return {
-      theme: this.$parent.theme === "dark"
+      theme: this.$auth.user().theme === "dark"
     };
   },
   computed: {
@@ -58,7 +58,10 @@ export default {
   },
   watch: {
     theme(val) {
-      this.$parent.theme = val ? "dark" : "light";
+      this.$auth.user().theme = val ? "dark" : "light";
+      this.$http.post(`users/me/set-theme`, {
+        theme: this.$auth.user().theme
+      });
     }
   },
   methods: {

@@ -71,11 +71,12 @@ class LoginController extends Controller
 
   public function refresh()
   {
-    if ($token = $this->guard()->refresh()) {
+    try {
+      $token = $this->guard()->refresh();
       return response()
         ->json(['status' => 'successs'], 200)
         ->header('Authorization', $token);
-    }
+    } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {}
     return response()->json(['error' => 'refresh_token_error'], 401);
   }
 

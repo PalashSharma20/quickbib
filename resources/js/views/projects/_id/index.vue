@@ -133,25 +133,24 @@
           <span class="text">You have no citations. Create a new one.</span>
         </a>
       </template>
-      <template v-else-if="page === 'recommendations' && recommendations">
-        <div
-          v-if="recommendations.length > 0"
-          class="recommendations"
-          v-infinite-scroll="getRecommendations"
-          :infinite-scroll-disabled="busy"
-          :infinite-scroll-distance="10"
-        >
+      <template v-else-if="page === 'recommendations' && !busy">
+        <div v-if="recommendations.length > 0" class="recommendations">
           <a
-            href="#"
+            :href="article.source"
+            target="_BLANK"
             v-for="(article, i) in recommendations"
             :key="i"
-            @click.prevent="autoCitation([{ type: 'URL', source: article.url }])"
             class="card"
           >
-            <div class="img" :style="{ backgroundImage: `url(${article.urlToImage})` }"></div>
-            <div class="content">
-              <h1>{{ article.title }}</h1>
-            </div>
+            <span>{{ dateFormat(article.date) }}</span>
+            <h1>
+              <a>{{ article.title }}</a>
+            </h1>
+            <p>{{ article.author_name }}</p>
+            <div class="spacer"></div>
+            <button
+              @click.prevent.stop="autoCitation([{ type: 'URL', source: article.source }])"
+            >CITE THIS</button>
           </a>
         </div>
         <a v-else class="no-project-message">
@@ -172,7 +171,6 @@ import Dialog from "@/components/Dialog";
 import AutoCitationDialog from "@/components/AutoCitationDialog";
 import StyleDialog from "@/components/StyleDialog";
 import CollabDialog from "@/components/CollabDialog";
-import infiniteScroll from "vue-infinite-scroll";
 
 export default {
   name: "Project",
@@ -188,7 +186,7 @@ export default {
       project: null,
       citationsLoaded: false,
       recommendations: [],
-      recommendationPage: 0,
+      recommendationPage: 1,
       busy: false
     };
   },
@@ -214,7 +212,7 @@ export default {
         this.citationsLoaded = false;
         let style_id = style.objectID;
         this.$http
-          .post(`projects/${this.project.routeKey}/set-style`, {
+          .post(`projects/${this.project.routeKey}`, {
             style_id
           })
           .then(response => {
@@ -225,6 +223,7 @@ export default {
     }
   },
   mounted() {
+    this.recommendationPage = this.$route.params.recommendationPage || 1;
     this.getProject();
   },
   methods: {
@@ -343,14 +342,36 @@ export default {
       this.busy = true;
       this.$http
         .get(
-          `projects/${
-            this.$route.params.project_id
-          }/recommendations?page=${++this.recommendationPage}`
+          `projects/${this.$route.params.project_id}/recommendations?page=${this.recommendationPage}`
         )
-        .then(response => {
-          this.recommendations.push(...response.data);
+        .then(async response => {
+          let recommendations = [...response.data];
+          recommendations = await Promise.all(
+            recommendations.map(async r => {
+              let { data } = await this.$http.post(
+                `projects/${this.$route.params.project_id}/citations/retrieve`,
+                {
+                  type: "URL",
+                  source: r.source
+                }
+              );
+              return {
+                ...r,
+                date: data.date,
+                author_name: `${data.first_name} ${data.last_name}`,
+                title: data.article_title
+              };
+            })
+          );
+          this.recommendations = recommendations;
           this.busy = false;
         });
+    },
+    dateFormat(date) {
+      date = new Date(date);
+      return `${date.toLocaleString("default", {
+        month: "long"
+      })} ${date.getFullYear()}`;
     }
   },
   components: {
@@ -359,8 +380,7 @@ export default {
     AutoCitationDialog,
     StyleDialog,
     CollabDialog
-  },
-  directives: { infiniteScroll }
+  }
 };
 </script>
 
@@ -459,7 +479,7 @@ export default {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 60px;
+  grid-gap: 20px;
   margin: 10px auto;
   .card {
     background: var(--menu-box-background-color);
@@ -469,19 +489,29 @@ export default {
     font-weight: 500;
     transition: 0.3s box-shadow ease-in;
     border-radius: 4px;
-    .img {
-      height: 200px;
-      width: 100%;
-      background-size: cover;
-      background-position: center;
-    }
-    .content {
-      padding: 20px 7px;
-      h1 {
+    padding: 20px 15px;
+    h1 {
+      a {
         color: var(--title-color);
-        font-size: 20px;
-        font-weight: 500;
       }
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .spacer {
+      flex: 1;
+    }
+    button {
+      color: var(--main-color);
+      background: transparent;
+      border: none;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: left;
+    }
+    span {
+      margin-bottom: 10px;
+      display: block;
     }
   }
 }

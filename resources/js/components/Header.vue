@@ -132,10 +132,15 @@
             :to="`/projects/${p.routeKey}`"
           >{{ p.name }}</router-link>
         </li>
-        <router-link to="/projects/add" class="link add flex" @click.native="sidebarActive = false">
+        <a
+          href="#"
+          @click.prevent="$parent.openAddProjectDialog"
+          class="link add flex"
+          @click.native="sidebarActive = false"
+        >
           <span>Add Project</span>
           <i class="material-icons">add</i>
-        </router-link>
+        </a>
       </ul>
 
       <div class="footer">

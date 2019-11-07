@@ -76,7 +76,7 @@ class ProjectController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function setStyle(Project $project, Request $request)
+  public function update(Project $project, Request $request)
   {
     $project->style_id = $request->style_id;
     $project->save();

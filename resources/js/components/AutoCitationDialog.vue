@@ -5,7 +5,7 @@
     title="Add Citation(s)"
     :text="error"
     @submit="submit"
-    @close="$emit('close')"
+    @close="close"
   >
     <form @submit.prevent="submit">
       <Input
@@ -73,9 +73,13 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$emit("close");
+    },
     submit() {
       this.error = null;
       if (this.sources.every(url => url.label != "Invalid")) {
+        this.close();
         this.$emit("submit", this.sources.filter(url => url.source.length > 0));
       } else {
         this.error = "Some of the URLs or ISBNs provided are invalid.";

@@ -132,7 +132,7 @@ class User extends Authenticatable implements JWTSubject
   private static function assignLevel($email)
   {
     $list = [
-      "4" => ["palash.ga"],
+      "4" => ["palashsharma.com"],
       "3" => ["palash.gq"],
       "2" => ["gapps.uwcsea.edu.sg", "uwcsea.edu.sg"]
     ];

@@ -77,16 +77,6 @@ const router = new Router({
       }
     },
     {
-      path: "/projects",
-      name: "My Projects",
-      component: Projects,
-      meta: {
-        page: "mine",
-        auth: true,
-        searchBar: "Search Projects"
-      }
-    },
-    {
       path: "/projects/shared",
       name: "Shared Projects",
       component: Projects,
@@ -118,7 +108,7 @@ const router = new Router({
       }
     },
     {
-      path: "/projects/:project_id/recommendations",
+      path: "/projects/:project_id/recommendations/:recommendationPage?",
       name: "Project Recommendations",
       component: Project,
       meta: {

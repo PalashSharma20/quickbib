@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth:api'], function () {
   Route::get('projects', 'ProjectController@index');
   Route::post('projects', 'ProjectController@store');
   Route::get('projects/{project}', 'ProjectController@show');
-  Route::post('projects/{project}/set-style', 'ProjectController@setStyle');
+  Route::post('projects/{project}', 'ProjectController@update');
   Route::delete('projects/{project}', 'ProjectController@destroy');
 
   // Citation
@@ -73,10 +73,10 @@ Route::group(['middleware' => 'auth:api'], function () {
   );
 
   // Recommendations
-  Route::get(
-    'projects/{project}/recommendations',
-    'RecommendationController@index'
-  );
+  // Route::get(
+  //   'projects/{project}/recommendations',
+  //   'RecommendationController@index'
+  // );
 
   // Admin
   Route::group(['middleware' => 'admin'], function () {

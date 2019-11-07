@@ -1,12 +1,5 @@
 <template>
-  <Dialog
-    :show="show"
-    title="Add Project"
-    type="big"
-    :text="error"
-    @submit="submit"
-    @close="$emit('close')"
-  >
+  <Dialog :show="show" title="Add Project" type="big" :text="error" @submit="submit" @close="close">
     <form @submit.prevent="submit">
       <Input label="Project Name" v-model="project.name" :required="true" />
     </form>
@@ -40,6 +33,9 @@ export default {
     setStyle(style) {
       this.project.style = style;
     },
+    close() {
+      this.$emit("close");
+    },
     submit() {
       this.error = "";
       if (this.project.name === "") {
@@ -49,7 +45,12 @@ export default {
         this.error += "Please choose a citation style.";
       }
       if (this.error == "") {
+        this.close();
         this.$emit("submit", this.project);
+        this.project = {
+          name: "",
+          style: null
+        };
       }
     }
   },

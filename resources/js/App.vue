@@ -1,6 +1,21 @@
 <template>
-  <div id="app" :class="theme">
+  <div v-if="$auth.ready()" id="app" :class="$auth.user().theme">
     <Header ref="header" />
+    <AddProjectDialog
+      v-if="addProjectDialog.submit"
+      :show="addProjectDialog.visible"
+      @submit="addProject"
+      @close="addProjectDialog.visible = false"
+    />
+    <Dialog
+      v-else
+      :show="addProjectDialog.visible"
+      @close="addProjectDialog.visible = false"
+      type="small"
+      title="Project Limit Reached"
+      :text="addProjectDialog.text"
+      :dismiss="true"
+    />
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
@@ -9,6 +24,8 @@
 
 <script>
 import Header from "@/components/Header";
+import Dialog from "@/components/Dialog";
+import AddProjectDialog from "@/components/AddProjectDialog";
 
 export default {
   name: "App",
@@ -16,30 +33,22 @@ export default {
     return {
       title: "",
       theme: "light",
-      projects: null
+      projects: null,
+      addProjectDialog: {
+        visible: false,
+        submit: true
+      }
     };
   },
   watch: {
     title(val) {
       document.title = `${val} — QuickBib`;
     },
-    theme(theme) {
-      this.$auth.user().theme = theme;
-      localStorage.setItem("theme", theme);
-      this.$http.post(`users/me/set-theme`, {
-        theme
-      });
-    },
     "$auth.watch.loaded": {
       handler() {
         this.getProjects();
       },
       deep: true
-    }
-  },
-  mounted() {
-    if (localStorage.getItem("theme")) {
-      this.theme = localStorage.getItem("theme");
     }
   },
   methods: {
@@ -59,10 +68,35 @@ export default {
         }
       }
       return initials;
+    },
+    openAddProjectDialog() {
+      this.$http.get("/auth/user").then(res => {
+        if (!res.data.data.project_usage.status) {
+          this.addProjectDialog.submit = false;
+          this.addProjectDialog.text = `You already have ${
+            this.$auth.user().project_usage.n
+          } projects. To add more, please upgrade your plan or delete existing projects.`;
+        }
+        this.addProjectDialog.visible = true;
+      });
+    },
+    addProject(project) {
+      let p = {
+        name: project.name,
+        style_id: project.style.objectID
+      };
+      this.$http.post("/projects", p).then(res => {
+        let project = res.data;
+        this.$refs.header.sidebarActive = false;
+        this.projects.mine.push(project);
+        window.location.href = `/projects/${project.routeKey}`;
+      });
     }
   },
   components: {
-    Header
+    Header,
+    Dialog,
+    AddProjectDialog
   }
 };
 </script>
