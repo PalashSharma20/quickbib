@@ -12,12 +12,12 @@
     "algolia/algoliasearch-client-php": "^2.3",
     "embed/embed": "^3.3",
     "fideloper/proxy": "^4.0",
-    "laravel/framework": "^6.2",
+    "laravel/framework": "5.8.*",
     "laravel/socialite": "^4.1",
     "laravel/tinker": "^1.0",
     "symfony/process": "^4.3",
     "tymon/jwt-auth": "dev-develop",
-    "vinkla/hashids": "^7.0",
+    "vinkla/hashids": "^6.0",
     "webit/bcmath": "^1.2.0"
   },
   "require-dev": {
