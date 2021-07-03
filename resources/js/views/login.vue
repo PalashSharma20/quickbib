@@ -201,8 +201,6 @@ export default {
           },
           success: function() {
             window.removeEventListener("message", this.tokenReceiver);
-            localStorage.setItem("theme", this.$auth.user().theme);
-            this.$parent.getProjects();
             this.$router.push(`/`);
           },
           rememberMe: true,
