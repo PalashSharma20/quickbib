@@ -40,7 +40,8 @@ class LoginController extends Controller
   {
     return response()
       ->json(['status' => 'success'], 200)
-      ->header('Authorization', $request->token);
+      ->header('Authorization', $request->token)
+      ->header('Access-Control-Expose-Headers', 'Authorization');
   }
 
   public function logout()
@@ -70,9 +71,10 @@ class LoginController extends Controller
       $token = Auth::refresh();
       return response()
         ->json(['status' => 'successs'], 200)
-        ->header('Authorization', $token);
-    } catch (\PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException $e) {
+        ->header('Authorization', $token)
+        ->header('Access-Control-Expose-Headers', 'Authorization');
+    } catch (Exception $e) {
+      return response()->json(['error' => 'refresh_token_error'], 401);
     }
-    return response()->json(['error' => 'refresh_token_error'], 401);
   }
 }

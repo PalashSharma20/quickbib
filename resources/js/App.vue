@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$auth.ready()" id="app" :class="$auth.user().theme">
+  <div v-if="$auth.ready()" id="app" :class="$auth.user()?.theme">
     <Header ref="header" />
     <AddProjectDialog
       v-if="addProjectDialog.submit"
@@ -36,25 +36,22 @@ export default {
       projects: null,
       addProjectDialog: {
         visible: false,
-        submit: true
-      }
+        submit: true,
+      },
     };
+  },
+  mounted() {
+    this.$auth.load().then(this.getProjects);
   },
   watch: {
     title(val) {
       document.title = `${val} — QuickBib`;
     },
-    "$auth.watch.loaded": {
-      handler() {
-        this.getProjects();
-      },
-      deep: true
-    }
   },
   methods: {
     getProjects() {
       this.projects = null;
-      this.$http.get(`projects`).then(response => {
+      this.$http.get(`projects`).then((response) => {
         this.projects = response.data;
       });
     },
@@ -70,7 +67,7 @@ export default {
       return initials;
     },
     openAddProjectDialog() {
-      this.$http.get("/auth/user").then(res => {
+      this.$http.get("/auth/user").then((res) => {
         if (!res.data.data.project_usage.status) {
           this.addProjectDialog.submit = false;
           this.addProjectDialog.text = `You already have ${
@@ -83,21 +80,21 @@ export default {
     addProject(project) {
       let p = {
         name: project.name,
-        style_id: project.style.objectID
+        style_id: project.style.objectID,
       };
-      this.$http.post("/projects", p).then(res => {
+      this.$http.post("/projects", p).then((res) => {
         let project = res.data;
         this.$refs.header.sidebarActive = false;
         this.projects.mine.push(project);
         window.location.href = `/projects/${project.routeKey}`;
       });
-    }
+    },
   },
   components: {
     Header,
     Dialog,
-    AddProjectDialog
-  }
+    AddProjectDialog,
+  },
 };
 </script>
 

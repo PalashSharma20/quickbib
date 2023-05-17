@@ -1,7 +1,7 @@
 <template>
   <div v-if="analytics" class="analytics">
     <div @click="nextGraph = !nextGraph" class="graph_wrapper">
-      <div :class="['graph_container', {next: nextGraph}]">
+      <div :class="['graph_container', { next: nextGraph }]">
         <div
           v-for="(data, type) in analytics.graphs"
           :key="type"
@@ -10,7 +10,11 @@
         >
           <div class="box-container">
             <h1>{{ type == "citations" ? "Citation" : "User" }} Growth</h1>
-            <Chart class="graph" :data="data" :label="type == 'citations' ? 'Citation' : 'User'" />
+            <Chart
+              class="graph"
+              :data="data"
+              :label="type == 'citations' ? 'Citation' : 'User'"
+            />
           </div>
         </div>
       </div>
@@ -21,12 +25,20 @@
         :key="type"
         class="box"
         :data-type="type"
-        :style="{ '--bar-color': '#'+colors[type]  }"
+        :style="{ '--bar-color': '#' + colors[type] }"
       >
         <div class="box-container">
           <div class="meta">
-            <h1>{{ type == "collaborativeProjects" ? "collaborative Projects" : type}}</h1>
-            <h3 v-if="data.change.val != 0" :class="data.change.type">{{ data.change.val }}</h3>
+            <h1>
+              {{
+                type == "collaborativeProjects"
+                  ? "collaborative Projects"
+                  : type
+              }}
+            </h1>
+            <h3 v-if="data.change.val != 0" :class="data.change.type">
+              {{ data.change.val }}
+            </h3>
           </div>
           <h2>{{ data.val }}</h2>
           <div class="bars">
@@ -34,7 +46,9 @@
               v-for="(bar, i) in data.minigraph"
               :key="i"
               class="bar"
-              :style="{ height: `${100 * bar / Math.max(...data.minigraph)}%` }"
+              :style="{
+                height: `${(100 * bar) / Math.max(...data.minigraph)}%`,
+              }"
             ></div>
           </div>
         </div>
@@ -60,7 +74,12 @@
       <div class="box vertical-large space">
         <div class="box-container">
           <h1>Search Users</h1>
-          <input id="user_search" v-model="searchTerm" placeholder="Name or Email" type="text" />
+          <input
+            id="user_search"
+            v-model="searchTerm"
+            placeholder="Name or Email"
+            type="text"
+          />
           <ul class="user_search">
             <li
               v-for="user in userSearchResults"
@@ -93,12 +112,12 @@ export default {
         users: "fe154c",
         citation: "f96bcf",
         projects: "69cdfa",
-        collaborativeProjects: "7653bb"
-      }
+        collaborativeProjects: "7653bb",
+      },
     };
   },
   created() {
-    window.addEventListener("keyup", e => {
+    window.addEventListener("keyup", (e) => {
       if (e.keyCode == 37) {
         this.nextGraph = false;
       } else if (e.keyCode == 39) {
@@ -119,28 +138,28 @@ export default {
           this.$http
             .post("/users/search", {
               searchTerm,
-              numberOfResults: 8
+              numberOfResults: 8,
             })
-            .then(response => {
+            .then((response) => {
               this.userSearchResults = response.data;
             });
         }
       }, 1000);
-    }
+    },
   },
   components: {
-    Chart
+    Chart,
   },
   methods: {
     getAnalytics() {
       this.$http
         .get("admin/analytics")
-        .then(response => {
+        .then((response) => {
           this.analytics = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$router.push({
-            name: "My Projects"
+            name: "My Projects",
           });
         });
     },
@@ -148,23 +167,23 @@ export default {
       this.$http
         .post("admin/login", {
           name,
-          email
+          email,
         })
-        .then(response => {
+        .then((response) => {
           this.$auth.logout();
           this.$auth.login({
             params: {
-              token: response.data
+              token: response.data,
             },
-            success: function() {
+            success: function () {
               window.location.href = "/";
             },
-            rememberMe: true,
-            fetchUser: true
+            staySignedIn: true,
+            fetchUser: true,
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

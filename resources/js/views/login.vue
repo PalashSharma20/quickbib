@@ -211,7 +211,7 @@ export default {
             window.removeEventListener("message", this.tokenReceiver);
             this.$router.push(`/`);
           },
-          rememberMe: true,
+          staySignedIn: true,
           fetchUser: true,
         });
       } catch (e) {
