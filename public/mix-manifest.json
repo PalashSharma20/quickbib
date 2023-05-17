@@ -1,7 +1,7 @@
 {
-    "/js/analytics.js": "/js/analytics.js?id=b93f6bb39fa16abaa22769d2da4ef6dd",
-    "/js/citations.js": "/js/citations.js?id=176d1295cfc5689ea9a0dbef6553167f",
-    "/js/main.js": "/js/main.js?id=0d5a118ea2a8cc32ec10dd18b67cf766",
-    "/js/projects.js": "/js/projects.js?id=e3dac045548c36af02c4bf5154d38f45",
-    "/js/static.js": "/js/static.js?id=22e40b623859835f5869ce4d08746994"
+    "/js/analytics.js": "/js/analytics.js",
+    "/js/citations.js": "/js/citations.js",
+    "/js/main.js": "/js/main.js",
+    "/js/projects.js": "/js/projects.js",
+    "/js/static.js": "/js/static.js"
 }

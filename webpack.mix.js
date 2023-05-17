@@ -21,9 +21,3 @@ mix
   })
   .js("resources/js/main.js", "public/js")
   .vue();
-
-if (mix.inProduction()) {
-  mix.versionHash();
-} else {
-  mix.version();
-}
