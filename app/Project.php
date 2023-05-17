@@ -3,14 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Traits\Hashidable;
 
 class Project extends Model
 {
-  // This is a trait that can hash the id of the model
-
-  use Hashidable;
-
   // These are attributes that can be filled
 
   protected $fillable = ['name', 'user_id', 'style_id'];
@@ -27,7 +22,7 @@ class Project extends Model
 
   public function getRouteKeyAttribute()
   {
-    return $this->getRouteKey();
+    return $this->id;
   }
 
   // A project belongs to one admin user

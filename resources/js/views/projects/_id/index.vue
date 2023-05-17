@@ -40,16 +40,28 @@
       <div class="big-title project">
         <span>
           <h1>
-            <router-link :to="`/projects/${project.routeKey}`">{{ project.name }}</router-link>
+            <router-link :to="`/projects/${project.routeKey}`">{{
+              project.name
+            }}</router-link>
           </h1>
           <h4
-            :data-count="citationsLoaded ? `${filteredCitations.length} Citation${filteredCitations.length != 1 ? 's' : ''} | ` : ''"
+            :data-count="
+              citationsLoaded
+                ? `${filteredCitations.length} Citation${
+                    filteredCitations.length != 1 ? 's' : ''
+                  } | `
+                : ''
+            "
             :data-username="project.user.name"
             class="citation-count"
           ></h4>
         </span>
         <div class="right">
-          <a class="btn primary" href="#" @click.prevent="openAutoCitationDialog">
+          <a
+            class="btn primary"
+            href="#"
+            @click.prevent="openAutoCitationDialog"
+          >
             <span>ADD CITATION(S)</span>
             <i class="material-icons">add</i>
           </a>
@@ -57,7 +69,11 @@
             <span>STYLE</span>
             <i class="material-icons">format_quote</i>
           </a>
-          <a class="btn secondary" href="#" @click.prevent="collabDialog = true">
+          <a
+            class="btn secondary"
+            href="#"
+            @click.prevent="collabDialog = true"
+          >
             <span>COLLABORATORS</span>
             <i class="material-icons">people</i>
           </a>
@@ -79,7 +95,9 @@
           class="collaborator"
         >
           <div class="avatar" :style="{ backgroundColor: `#ffa5001A` }">
-            <span :style="{ color: `#ffa500` }">{{ $parent.getInitials(collaborator.name) }}</span>
+            <span :style="{ color: `#ffa500` }">{{
+              $parent.getInitials(collaborator.name)
+            }}</span>
           </div>
         </div>
         <div
@@ -87,7 +105,10 @@
           class="collaborator click"
           @click="collabDialog = true"
         >
-          <div class="avatar" :style="{ backgroundColor: `var(--form-background-color)` }">
+          <div
+            class="avatar"
+            :style="{ backgroundColor: `var(--form-background-color)` }"
+          >
             <span>+{{ project.collaborators.length - 5 }}</span>
           </div>
         </div>
@@ -96,11 +117,13 @@
         <router-link
           :class="['link', { s: page === 'view' }]"
           :to="`/projects/${project.routeKey}`"
-        >VIEW</router-link>
+          >VIEW</router-link
+        >
         <router-link
           :class="['link', { s: page === 'export' }]"
           :to="`/projects/${project.routeKey}/export`"
-        >EXPORT</router-link>
+          >EXPORT</router-link
+        >
         <!-- <router-link
           :class="['link', { s: page === 'recommendations' }]"
           :to="`/projects/${project.routeKey}/recommendations`"
@@ -108,7 +131,9 @@
       </div>
     </div>
     <transition name="fade" mode="out-in">
-      <template v-if="(page === 'view' || page === 'export') && citationsLoaded">
+      <template
+        v-if="(page === 'view' || page === 'export') && citationsLoaded"
+      >
         <div v-if="project.citations.length > 0">
           <div :class="page" :contenteditable="page != 'view'">
             <Citation
@@ -149,15 +174,23 @@
             <p>{{ article.author_name }}</p>
             <div class="spacer"></div>
             <button
-              @click.prevent.stop="autoCitation([{ type: 'URL', source: article.source }])"
-            >CITE THIS</button>
+              @click.prevent.stop="
+                autoCitation([{ type: 'URL', source: article.source }])
+              "
+            >
+              CITE THIS
+            </button>
           </a>
         </div>
         <a v-else class="no-project-message">
           <div class="icon flex flex__center">
-            <i class="material-icons" :style="{ 'font-size': '230px' }">thumbs_up_down</i>
+            <i class="material-icons" :style="{ 'font-size': '230px' }"
+              >thumbs_up_down</i
+            >
           </div>
-          <span class="text">No recommendations at the moment. Cite something first.</span>
+          <span class="text"
+            >No recommendations at the moment. Cite something first.</span
+          >
         </a>
       </template>
     </transition>
@@ -178,7 +211,7 @@ export default {
     return {
       autoCitationDialog: {
         visible: false,
-        submit: true
+        submit: true,
       },
       styleDialog: false,
       collabDialog: false,
@@ -187,7 +220,7 @@ export default {
       citationsLoaded: false,
       recommendations: [],
       recommendationPage: 1,
-      busy: false
+      busy: false,
     };
   },
   computed: {
@@ -195,7 +228,7 @@ export default {
       return this.$parent.$refs.header.searchString.toLowerCase();
     },
     filteredCitations() {
-      return this.project.citations.filter(citation => {
+      return this.project.citations.filter((citation) => {
         return citation.string.toLowerCase().includes(this.searchString);
       });
     },
@@ -204,7 +237,7 @@ export default {
     },
     page() {
       return this.$route.meta.page;
-    }
+    },
   },
   watch: {
     "project.style": {
@@ -213,14 +246,14 @@ export default {
         let style_id = style.objectID;
         this.$http
           .post(`projects/${this.project.routeKey}`, {
-            style_id
+            style_id,
           })
-          .then(response => {
+          .then((response) => {
             this.sortCitations();
           });
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     this.recommendationPage = this.$route.params.recommendationPage || 1;
@@ -230,12 +263,12 @@ export default {
     getProject() {
       this.$http
         .get(`projects/${this.$route.params.project_id}`)
-        .then(response => {
+        .then((response) => {
           this.project = response.data;
           // this.getRecommendations();
           this.$parent.title = this.project.name;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$router.push(`/404`);
         });
     },
@@ -246,13 +279,13 @@ export default {
       this.deleteProjectDialog = false;
       this.$http
         .delete(`projects/${this.$route.params.project_id}`)
-        .then(response => {
+        .then((response) => {
           this.$parent.getProjects();
           this.$router.push(`/`);
         });
     },
     openAutoCitationDialog() {
-      this.$http.get("/auth/user").then(res => {
+      this.$http.get("/auth/user").then((res) => {
         if (!res.data.data.citation_usage.status) {
           this.autoCitationDialog.submit = false;
           this.autoCitationDialog.text = `You already have ${
@@ -264,28 +297,29 @@ export default {
     },
     autoCitation(sources) {
       this.autoCitationDialog.visible = false;
-      sources.forEach(s => {
+      sources.forEach((s) => {
         delete s.label;
       });
       this.$router.push({
         name: "Add Citation",
         query: {
-          sources: encodeURIComponent(JSON.stringify(sources))
-        }
+          sources: encodeURIComponent(JSON.stringify(sources)),
+        },
       });
     },
     sortCitations() {
       let bib = {};
-      this.project.citations.forEach(citation => {
-        bib[citation.routeKey] = proccessCitation({
-          ...citation
+      this.project.citations.forEach((citation) => {
+        bib[citation.routeKey + ""] = proccessCitation({
+          ...citation,
         });
       });
-      format(this.project.style, bib).then(bibResult => {
+      format(this.project.style, bib).then((bibResult) => {
         if (bibResult) {
           let order = [].concat.apply([], bibResult[0].entry_ids);
-          this.project.citations = this.project.citations.map(citation => {
-            citation.string = bibResult[1][order.indexOf(citation.routeKey)];
+          this.project.citations = this.project.citations.map((citation) => {
+            citation.string =
+              bibResult[1][order.indexOf(citation.routeKey + "")];
             return citation;
           });
           // this.project.citations.sort((a, b) => {
@@ -310,16 +344,16 @@ export default {
     getCollaborators(collaboratorId) {
       this.$http
         .get(`projects/${this.$route.params.project_id}/collaborators`)
-        .then(response => {
+        .then((response) => {
           this.project.collaborators = response.data;
         });
     },
     addCollaborator(collaboratorId) {
       this.$http
         .post(`projects/${this.$route.params.project_id}/collaborators`, {
-          collaboratorId
+          collaboratorId,
         })
-        .then(response => {
+        .then((response) => {
           this.project.collaborators.push(response.data);
         });
     },
@@ -328,10 +362,10 @@ export default {
         .delete(
           `projects/${this.$route.params.project_id}/collaborators/${collaboratorId}`
         )
-        .then(response => {
+        .then((response) => {
           if (response.data.sameId) {
             this.$router.push({
-              name: "My Projects"
+              name: "My Projects",
             });
           } else {
             this.getCollaborators();
@@ -344,22 +378,22 @@ export default {
         .get(
           `projects/${this.$route.params.project_id}/recommendations?page=${this.recommendationPage}`
         )
-        .then(async response => {
+        .then(async (response) => {
           let recommendations = [...response.data];
           recommendations = await Promise.all(
-            recommendations.map(async r => {
+            recommendations.map(async (r) => {
               let { data } = await this.$http.post(
                 `projects/${this.$route.params.project_id}/citations/retrieve`,
                 {
                   type: "URL",
-                  source: r.source
+                  source: r.source,
                 }
               );
               return {
                 ...r,
                 date: data.date,
                 author_name: `${data.first_name} ${data.last_name}`,
-                title: data.article_title
+                title: data.article_title,
               };
             })
           );
@@ -370,17 +404,17 @@ export default {
     dateFormat(date) {
       date = new Date(date);
       return `${date.toLocaleString("default", {
-        month: "long"
+        month: "long",
       })} ${date.getFullYear()}`;
-    }
+    },
   },
   components: {
     Citation,
     Dialog,
     AutoCitationDialog,
     StyleDialog,
-    CollabDialog
-  }
+    CollabDialog,
+  },
 };
 </script>
 

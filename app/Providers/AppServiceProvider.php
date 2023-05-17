@@ -16,13 +16,7 @@ class AppServiceProvider extends ServiceProvider
    */
   public function register()
   {
-    $this->app->bind(Hashids::class, function () {
-      return new Hashids(
-        "saltymate",
-        2,
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-      );
-    });
+    //
   }
 
   /**

@@ -8,12 +8,14 @@
             class="login-button google"
             href="#"
             @click.prevent="login('Google')"
-          >Continue with Google</a>
+            >Continue with Google</a
+          >
           <a
             class="login-button facebook"
             href="#"
             @click.prevent="login('Facebook')"
-          >Continue with Facebook</a>
+            >Continue with Facebook</a
+          >
         </div>
       </div>
     </div>
@@ -24,8 +26,14 @@
             fill="#e6ebf0"
             d="M121 290.09v-3.41l13.01-1.72L144.67 248h71.63l10.66 36.96 13.01 1.72v3.41H121z"
           />
-          <path d="M0 215V8a8 8 0 0 1 8-8h345a8 8 0 0 1 8 8v207z" fill="#474e5d" />
-          <path d="M353 248H8a8 8 0 0 1-8-8v-25h361v25a8 8 0 0 1-8 8z" fill="#e6ebf0" />
+          <path
+            d="M0 215V8a8 8 0 0 1 8-8h345a8 8 0 0 1 8 8v207z"
+            fill="#474e5d"
+          />
+          <path
+            d="M353 248H8a8 8 0 0 1-8-8v-25h361v25a8 8 0 0 1-8 8z"
+            fill="#e6ebf0"
+          />
           <path fill="#c6d2dd" d="M142.36 256l2.31-8h71.63l2.31 8h-76.25z" />
           <circle cx="180.5" cy="229.99" r="7.14" fill="#474e5d" />
           <circle cx="181" cy="6.97" r="1.71" fill="#a5adbd" />
@@ -197,20 +205,20 @@ export default {
         let redirect = this.$auth.redirect();
         this.$auth.login({
           params: {
-            token: token
+            token: token,
           },
-          success: function() {
+          success: function () {
             window.removeEventListener("message", this.tokenReceiver);
             this.$router.push(`/`);
           },
           rememberMe: true,
-          fetchUser: true
+          fetchUser: true,
         });
       } catch (e) {
         return false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -268,11 +276,11 @@ export default {
       font-size: 18px;
       &.google {
         background-color: #4285f4;
-        background-image: url("https://dy6j70a9vs3v1.cloudfront.net/funnel_wap/static/files/45eaf69cf1018aa240cea767e822dc96/google_white.svg");
+        background-image: url("data:image/svg+xml,%3Csvg fill='%23ffffff' viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3Eionicons-v5_logos%3C/title%3E%3Cpath d='M473.16,221.48l-2.26-9.59H262.46v88.22H387c-12.93,61.4-72.93,93.72-121.94,93.72-35.66,0-73.25-15-98.13-39.11a140.08,140.08,0,0,1-41.8-98.88c0-37.16,16.7-74.33,41-98.78s61-38.13,97.49-38.13c41.79,0,71.74,22.19,82.94,32.31l62.69-62.36C390.86,72.72,340.34,32,261.6,32h0c-60.75,0-119,23.27-161.58,65.71C58,139.5,36.25,199.93,36.25,256S56.83,369.48,97.55,411.6C141.06,456.52,202.68,480,266.13,480c57.73,0,112.45-22.62,151.45-63.66,38.34-40.4,58.17-96.3,58.17-154.9C475.75,236.77,473.27,222.12,473.16,221.48Z'/%3E%3C/svg%3E");
       }
       &.facebook {
         background-color: #3b5998;
-        background-image: url("https://dy6j70a9vs3v1.cloudfront.net/funnel_wap/static/files/32c47a476283bf5bb60f88935fc0815a/facebook_white.svg");
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='-5 0 20 20' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle%3Efacebook %5B%23176%5D%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cdefs%3E%3C/defs%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Dribbble-Light-Preview' transform='translate(-385.000000, -7399.000000)' fill='%23ffffff'%3E%3Cg id='icons' transform='translate(56.000000, 160.000000)'%3E%3Cpath d='M335.821282,7259 L335.821282,7250 L338.553693,7250 L339,7246 L335.821282,7246 L335.821282,7244.052 C335.821282,7243.022 335.847593,7242 337.286884,7242 L338.744689,7242 L338.744689,7239.14 C338.744689,7239.097 337.492497,7239 336.225687,7239 C333.580004,7239 331.923407,7240.657 331.923407,7243.7 L331.923407,7246 L329,7246 L329,7250 L331.923407,7250 L331.923407,7259 L335.821282,7259 Z' id='facebook-%5B%23176%5D'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       }
     }
   }

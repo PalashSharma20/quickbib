@@ -23,19 +23,14 @@ class LoginController extends Controller
       ->stateless()
       ->user();
     $user = User::firstOrCreate(
-      [
-        'email' => $getInfo->email
-      ],
-      [
-        'name' => $getInfo->name,
-        'email' => $getInfo->email
-      ]
+      ['email' => $getInfo->email],
+      ['name' => $getInfo->name]
     );
-    if ($token = $this->guard()->login($user)) {
+    if ($token = Auth::login($user)) {
       return response(
         "<script>window.opener.postMessage(JSON.stringify({token:'$token'}), '" .
-          getenv('APP_URL') .
-          "');window.close()</script>",
+        getenv('APP_URL') .
+        "');window.close()</script>",
         200
       )->header('Content-Type', 'text/html');
     }
@@ -50,7 +45,7 @@ class LoginController extends Controller
 
   public function logout()
   {
-    $this->guard()->logout();
+    Auth::logout();
     return response()->json(
       [
         'status' => 'success',
@@ -72,16 +67,12 @@ class LoginController extends Controller
   public function refresh()
   {
     try {
-      $token = $this->guard()->refresh();
+      $token = Auth::refresh();
       return response()
         ->json(['status' => 'successs'], 200)
         ->header('Authorization', $token);
-    } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {}
+    } catch (\PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException $e) {
+    }
     return response()->json(['error' => 'refresh_token_error'], 401);
-  }
-
-  private function guard()
-  {
-    return Auth::guard();
   }
 }

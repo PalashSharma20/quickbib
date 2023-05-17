@@ -25,10 +25,10 @@ class CreateCitationsTable extends Migration
         ->foreign('user_id')
         ->references('id')
         ->on('users');
-      $table->string('first_name')->nullable();
-      $table->string('last_name')->nullable();
-      $table->string('article_title')->nullable();
-      $table->string('web_title')->nullable();
+      $table->text('first_name')->nullable();
+      $table->text('last_name')->nullable();
+      $table->text('article_title')->nullable();
+      $table->text('web_title')->nullable();
       $table->date('date')->nullable();
       $table->unsignedInteger('citation_source_id')->nullable();
       $table

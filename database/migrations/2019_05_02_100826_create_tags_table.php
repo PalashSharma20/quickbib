@@ -20,7 +20,7 @@ class CreateTagsTable extends Migration
         ->foreign('citation_source_id')
         ->references('id')
         ->on('citation_sources');
-      $table->string('tag');
+      $table->text('tag');
     });
   }
 

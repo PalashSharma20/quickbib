@@ -15,7 +15,7 @@ class CreateCitationSourcesTable extends Migration
   {
     Schema::create('citation_sources', function (Blueprint $table) {
       $table->bigIncrements('id');
-      $table->string('source');
+      $table->text('source');
       $table->string('type')->default('URL');
     });
   }

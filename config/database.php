@@ -1,7 +1,5 @@
 <?php
 
-$parts = parse_url(env("DATABASE_URL"));
-
 return [
 
     /*
@@ -63,11 +61,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => $parts["host"],
-            'port' => $parts["port"],
-            'database' => ltrim($parts["path"], "/"),
-            'username' => $parts["user"],
-            'password' => $parts["pass"],
+            'host' => 'localhost',
+            'port' => 5432,
+            'database' => 'quickbib',
+            'username' => 'postgres',
+            'password' => '',
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

@@ -4,14 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Embed\Embed;
-use App\Http\Traits\Hashidable;
 
 class Citation extends Model
 {
-  // This is a trait that can hash the id of the model
-
-  use Hashidable;
-
   // These are attributes that can be filled
 
   protected $fillable = [
@@ -41,7 +36,7 @@ class Citation extends Model
 
   public function getRouteKeyAttribute()
   {
-    return $this->getRouteKey();
+    return $this->id;
   }
 
   public function getSourceAttribute()
@@ -97,8 +92,8 @@ class Citation extends Model
         $info = json_decode(
           file_get_contents(
             "https://www.googleapis.com/books/v1/volumes?q=isbn:" .
-              $source .
-              "&country=SG"
+            $source .
+            "&country=SG"
           ),
           true
         );

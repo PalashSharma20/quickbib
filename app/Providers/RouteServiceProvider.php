@@ -27,27 +27,6 @@ class RouteServiceProvider extends ServiceProvider
     //
 
     parent::boot();
-
-    Route::bind('project', function ($value, $route) {
-      return Auth::user()
-        ->projects()
-        ->findOrFail($this->getModel(\App\Project::class, $value)->id);
-    });
-
-    Route::bind('citation', function ($value, $route) {
-      $project = $route->parameter('project');
-      return $project
-        ->citations()
-        ->findOrFail($this->getModel(\App\Citation::class, $value)->id);
-    });
-  }
-
-  private function getModel($model, $routeKey)
-  {
-    $id = \Hashids::connection()->decode($routeKey)[0] ?? null;
-    $modelInstance = resolve($model);
-
-    return $modelInstance->findOrFail($id);
   }
 
   /**
