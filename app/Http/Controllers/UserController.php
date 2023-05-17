@@ -40,7 +40,7 @@ class UserController extends Controller
         'users.id',
         DB::table('user_projects')
           ->select('user_id')
-          ->where('project_id', $$request->projectId)
+          ->where('project_id', $request->projectId)
       );
     }
     $output = $output
