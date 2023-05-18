@@ -39,6 +39,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.$auth.load().then(this.getProjects);
+  },
   computed: {
     user() {
       return this.$auth.user()?.email;
