@@ -36,11 +36,12 @@ class UserController extends Controller
         ->orWhere('name', 'LIKE', $searchTerm);
     });
     if (isset($request->projectId)) {
+      $projectId = \Hashids::connection()->decode($request->projectId)[0];
       $output = $output->whereNotIn(
         'users.id',
         DB::table('user_projects')
           ->select('user_id')
-          ->where('project_id', $request->projectId)
+          ->where('project_id', $projectId)
       );
     }
     $output = $output

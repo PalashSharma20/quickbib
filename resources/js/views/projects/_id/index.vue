@@ -274,7 +274,7 @@ export default {
     sortCitations() {
       let bib = {};
       this.project.citations.forEach((citation) => {
-        bib[citation.routeKey + ""] = proccessCitation({
+        bib[`${citation.routeKey}`] = proccessCitation({
           ...citation,
         });
       });
@@ -283,7 +283,7 @@ export default {
           let order = [].concat.apply([], bibResult[0].entry_ids);
           this.project.citations = this.project.citations.map((citation) => {
             citation.string =
-              bibResult[1][order.indexOf(citation.routeKey + "")];
+              bibResult[1][order.indexOf(`${citation.routeKey}`)];
             return citation;
           });
           this.project.citations.sort((a, b) => {
