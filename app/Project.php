@@ -52,8 +52,8 @@ class Project extends Model
   public function getStyle()
   {
     $client = \Algolia\AlgoliaSearch\SearchClient::create(
-      '8B734O9DDG',
-      'a7b55640f6f9572d1beb158d01d7f581'
+      env('ALGOLIA_APPLICATION_ID'),
+      env('ALGOLIA_ADMIN_API_KEY')
     );
     $index = $client->initIndex('styles');
     return $index->getObject($this->style_id);
