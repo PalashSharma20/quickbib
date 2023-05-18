@@ -169,9 +169,11 @@
         </li>
         <a
           href="#"
-          @click.prevent="$parent.openAddProjectDialog"
+          @click.prevent="
+            $parent.openAddProjectDialog;
+            sidebarActive = false;
+          "
           class="link add flex"
-          @click.native="sidebarActive = false"
         >
           <span>Add Project</span>
           <i class="material-icons">add</i>

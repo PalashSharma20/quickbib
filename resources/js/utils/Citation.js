@@ -17,7 +17,7 @@ export function proccessCitation(citation) {
     id: citation.routeKey,
     type: citation.type == "URL" ? "webpage" : "book",
     title: citation.article_title,
-    publisher: citation.web_title
+    publisher: citation.web_title,
   };
   if (citation.last_name && citation.last_name != "") {
     modified.author = [];
@@ -49,28 +49,6 @@ async function getStyle(url) {
   return style.text();
 }
 
-// export async function format(style, bib) {
-//   let key = style.key.replace("dependent/", ""),
-//     template = await getStyle(`https://www.zotero.org/styles/${key}`);
-
-//   if (style.key.includes("dependent/")) {
-//     let parser = new DOMParser(),
-//       xmlDoc = parser.parseFromString(template, "text/xml"),
-//       parent = xmlDoc
-//         .querySelector('link[rel="independent-parent"]')
-//         .getAttribute("href")
-//         .replace("http:", "https:");
-//     template = await getStyle(parent);
-//   }
-
-//   let config = plugins.config.get("csl");
-//   config.templates.add(key, template);
-
-//   let cite = new Cite(Object.values(bib));
-//   console.log(cite.data);
-//   // return cite.data;
-// }
-
 export async function format(style, bib) {
   let key = style.key.replace("dependent/", ""),
     styleAsText = await getStyle(`https://www.zotero.org/styles/${key}`);
@@ -96,7 +74,7 @@ export async function format(style, bib) {
     },
     retrieveItem(id) {
       return bib[id];
-    }
+    },
   };
   let citeproc = new CSL.Engine(sys, styleAsText);
   citeproc.updateItems(Object.keys(bib));

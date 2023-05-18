@@ -5,19 +5,26 @@
         <h1>Projects</h1>
       </span>
       <div class="right">
-        <a class="btn primary" href="#" @click.prevent="$parent.openAddProjectDialog">
+        <a
+          class="btn primary"
+          href="#"
+          @click.prevent="$parent.openAddProjectDialog"
+        >
           <span>ADD PROJECT</span>
           <i class="material-icons">add</i>
         </a>
       </div>
     </div>
     <div class="tabs">
-      <router-link :class="['link', { s: page === 'mine' }]" to="/">CREATED BY ME</router-link>
+      <router-link :class="['link', { s: page === 'mine' }]" to="/"
+        >CREATED BY ME</router-link
+      >
       <router-link
         :class="['link', { s: page === 'shared' }]"
         to="/projects/shared"
         @click.native="$parent.getProjects"
-      >SHARED WITH ME</router-link>
+        >SHARED WITH ME</router-link
+      >
     </div>
     <div v-if="projects" class="flex">
       <div v-if="projects.length > 0" class="projects">
@@ -57,21 +64,21 @@ export default {
   name: "AllProjects",
   computed: {
     projects() {
-      return this.$parent.projects ? this.$parent.projects[this.page] : null;
+      return this.$parent.projects?.[this.page];
     },
     searchString() {
       return this.$parent.$refs.header.searchString.toLowerCase().trim();
     },
     filteredProjects() {
-      return this.projects.filter(project =>
+      return this.projects.filter((project) =>
         project.name.toLowerCase().includes(this.searchString)
       );
     },
     page() {
       return this.$route.meta.page;
-    }
+    },
   },
-  methods: {}
+  methods: {},
 };
 </script>
 
