@@ -215,8 +215,10 @@ export default {
       deep: true,
     },
     "$route.params.project_id": {
-      handler() {
-        this.getProject();
+      handler(newVal, oldVal) {
+        if (oldVal !== newVal) {
+          this.getProject();
+        }
       },
       deep: true,
     },
