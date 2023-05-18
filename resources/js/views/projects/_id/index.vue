@@ -124,10 +124,6 @@
           :to="`/projects/${project.routeKey}/export`"
           >EXPORT</router-link
         >
-        <!-- <router-link
-          :class="['link', { s: page === 'recommendations' }]"
-          :to="`/projects/${project.routeKey}/recommendations`"
-        >RECOMMENDATIONS</router-link>-->
       </div>
     </div>
     <transition name="fade" mode="out-in">
@@ -140,8 +136,8 @@
               v-for="citation in filteredCitations"
               :page="page"
               :string="citation.string"
-              :routeKey="citation.routeKey"
-              :project_id="project.routeKey"
+              :routeKey="`${citation.routeKey}`"
+              :project_id="`${project.routeKey}`"
               :key="citation.routeKey"
             />
           </div>
@@ -156,41 +152,6 @@
             <i class="material-icons">add</i>
           </div>
           <span class="text">You have no citations. Create a new one.</span>
-        </a>
-      </template>
-      <template v-else-if="page === 'recommendations' && !busy">
-        <div v-if="recommendations.length > 0" class="recommendations">
-          <a
-            :href="article.source"
-            target="_BLANK"
-            v-for="(article, i) in recommendations"
-            :key="i"
-            class="card"
-          >
-            <span>{{ dateFormat(article.date) }}</span>
-            <h1>
-              <a>{{ article.title }}</a>
-            </h1>
-            <p>{{ article.author_name }}</p>
-            <div class="spacer"></div>
-            <button
-              @click.prevent.stop="
-                autoCitation([{ type: 'URL', source: article.source }])
-              "
-            >
-              CITE THIS
-            </button>
-          </a>
-        </div>
-        <a v-else class="no-project-message">
-          <div class="icon flex flex__center">
-            <i class="material-icons" :style="{ 'font-size': '230px' }"
-              >thumbs_up_down</i
-            >
-          </div>
-          <span class="text"
-            >No recommendations at the moment. Cite something first.</span
-          >
         </a>
       </template>
     </transition>
@@ -218,7 +179,6 @@ export default {
       deleteProjectDialog: false,
       project: null,
       citationsLoaded: false,
-      recommendations: [],
       recommendationPage: 1,
       busy: false,
     };
@@ -254,9 +214,14 @@ export default {
       },
       deep: true,
     },
+    "$route.params.project_id": {
+      handler() {
+        this.getProject();
+      },
+      deep: true,
+    },
   },
   mounted() {
-    this.recommendationPage = this.$route.params.recommendationPage || 1;
     this.getProject();
   },
   methods: {
@@ -265,7 +230,6 @@ export default {
         .get(`projects/${this.$route.params.project_id}`)
         .then((response) => {
           this.project = response.data;
-          // this.getRecommendations();
           this.$parent.title = this.project.name;
         })
         .catch((error) => {
@@ -322,9 +286,6 @@ export default {
               bibResult[1][order.indexOf(citation.routeKey + "")];
             return citation;
           });
-          // this.project.citations.sort((a, b) => {
-          // 	return order.indexOf(a.id) < order.indexOf(b) ? -1 : 1;
-          // });
           this.project.citations.sort((a, b) => {
             a = a.string
               .toLowerCase()
@@ -370,35 +331,6 @@ export default {
           } else {
             this.getCollaborators();
           }
-        });
-    },
-    getRecommendations() {
-      this.busy = true;
-      this.$http
-        .get(
-          `projects/${this.$route.params.project_id}/recommendations?page=${this.recommendationPage}`
-        )
-        .then(async (response) => {
-          let recommendations = [...response.data];
-          recommendations = await Promise.all(
-            recommendations.map(async (r) => {
-              let { data } = await this.$http.post(
-                `projects/${this.$route.params.project_id}/citations/retrieve`,
-                {
-                  type: "URL",
-                  source: r.source,
-                }
-              );
-              return {
-                ...r,
-                date: data.date,
-                author_name: `${data.first_name} ${data.last_name}`,
-                title: data.article_title,
-              };
-            })
-          );
-          this.recommendations = recommendations;
-          this.busy = false;
         });
     },
     dateFormat(date) {
@@ -509,46 +441,6 @@ export default {
   font-size: 14px;
 }
 
-.recommendations {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px;
-  margin: 10px auto;
-  .card {
-    background: var(--menu-box-background-color);
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--box-shadow-color) 0 10px 24px 0;
-    font-weight: 500;
-    transition: 0.3s box-shadow ease-in;
-    border-radius: 4px;
-    padding: 20px 15px;
-    h1 {
-      a {
-        color: var(--title-color);
-      }
-      font-size: 20px;
-      font-weight: 500;
-    }
-    .spacer {
-      flex: 1;
-    }
-    button {
-      color: var(--main-color);
-      background: transparent;
-      border: none;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      text-align: left;
-    }
-    span {
-      margin-bottom: 10px;
-      display: block;
-    }
-  }
-}
 @media only screen and (max-width: 810px) {
   .export {
     padding: 30px 20px;

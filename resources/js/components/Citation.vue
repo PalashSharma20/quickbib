@@ -18,18 +18,18 @@ export default {
   props: {
     routeKey: {
       type: String,
-      default: null
+      default: null,
     },
     string: String,
     page: {
       type: String,
-      default: "view"
+      default: "view",
     },
     project_id: {
       type: String,
-      default: null
-    }
-  }
+      default: null,
+    },
+  },
 };
 </script>
 

@@ -1,7 +1,11 @@
 <template>
   <div class>
     <transition name="fade">
-      <div v-if="sidebarActive " class="overlay" @click="sidebarActive = false"></div>
+      <div
+        v-if="sidebarActive"
+        class="overlay"
+        @click="sidebarActive = false"
+      ></div>
     </transition>
     <header>
       <div class="logo">
@@ -58,45 +62,53 @@
       <div class="spacer"></div>
       <div v-if="showMenu">
         <div
-          @click="navActive = !navActive;"
-          :class="['header-nav-toggle', 'flex__center', {hidden: $auth.check()}]"
+          @click="navActive = !navActive"
+          :class="[
+            'header-nav-toggle',
+            'flex__center',
+            { hidden: $auth.check() },
+          ]"
         >
           <i class="material-icons">menu</i>
         </div>
-        <ul :class="['header-nav', {open: navActive}]">
+        <ul :class="['header-nav', { open: navActive }]">
           <li>
             <router-link
-              :class="['item', {s: this.$route.name === 'About Us'}]"
+              :class="['item', { s: this.$route.name === 'About Us' }]"
               @click.native="navActive = false"
               to="/about"
-            >About Us</router-link>
+              >About Us</router-link
+            >
           </li>
           <li>
             <router-link
-              :class="['item', {s: this.$route.name === 'Plans & Pricing'}]"
+              :class="['item', { s: this.$route.name === 'Plans & Pricing' }]"
               @click.native="navActive = false"
               to="/pricing"
-            >Plans & Pricing</router-link>
+              >Plans & Pricing</router-link
+            >
           </li>
           <li>
             <router-link
-              :class="['item', {s: this.$route.name === 'Terms of Service'}]"
+              :class="['item', { s: this.$route.name === 'Terms of Service' }]"
               @click.native="navActive = false"
               to="/tos"
-            >Terms of Service</router-link>
+              >Terms of Service</router-link
+            >
           </li>
           <li>
             <router-link
-              :class="['item', {s: this.$route.name === 'Privacy Policy'}]"
+              :class="['item', { s: this.$route.name === 'Privacy Policy' }]"
               @click.native="navActive = false"
               to="/privacy"
-            >Privacy Policy</router-link>
+              >Privacy Policy</router-link
+            >
           </li>
         </ul>
       </div>
       <div
         v-if="$auth.check()"
-        @click="sidebarActive = !sidebarActive;"
+        @click="sidebarActive = !sidebarActive"
         class="ham-container flex flex__center"
       >
         <div class="ham">
@@ -110,7 +122,11 @@
     <div :class="['menu', { open: sidebarActive }]" v-if="$auth.check()">
       <div class="user-details">
         <div class="flex flex__center">
-          <router-link class="flex" to="/users/me" @click.native="sidebarActive = false">
+          <router-link
+            class="flex"
+            to="/users/me"
+            @click.native="sidebarActive = false"
+          >
             <div class="avatar flex flex__center">
               <span>{{ $parent.getInitials($auth.user().name) }}</span>
             </div>
@@ -120,17 +136,36 @@
             <i class="material-icons">close</i>
           </div>
         </div>
-        <a class="logout" href="/#" @click.prevent="sidebarActive = false;$auth.logout()">LOGOUT</a>
+        <a
+          class="logout"
+          href="/#"
+          @click.prevent="
+            sidebarActive = false;
+            $auth.logout();
+          "
+          >LOGOUT</a
+        >
       </div>
 
-      <router-link class="label" to="/" @click.native="sidebarActive = false">My Projects</router-link>
+      <router-link class="label" to="/" @click.native="sidebarActive = false"
+        >My Projects</router-link
+      >
       <ul class="list" v-if="$parent.projects">
         <li v-for="p in $parent.projects.mine" :key="p.id">
           <router-link
             @click.native="sidebarActive = false"
-            :class="['link', 'flex', { sel: $route.params.project_id && $route.params.project_id == p.routeKey }]"
+            :class="[
+              'link',
+              'flex',
+              {
+                sel:
+                  $route.params.project_id &&
+                  $route.params.project_id === `${p.routeKey}`,
+              },
+            ]"
             :to="`/projects/${p.routeKey}`"
-          >{{ p.name }}</router-link>
+            >{{ p.name }}</router-link
+          >
         </li>
         <a
           href="#"
@@ -144,14 +179,30 @@
       </ul>
 
       <div class="footer">
-        <router-link @click.native="sidebarActive = false" class="link" to="/about">About Us</router-link>
+        <router-link
+          @click.native="sidebarActive = false"
+          class="link"
+          to="/about"
+          >About Us</router-link
+        >
         <router-link
           @click.native="sidebarActive = false"
           class="link"
           to="/pricing"
-        >Plans &amp; Pricing</router-link>
-        <router-link @click.native="sidebarActive = false" class="link" to="/tos">Terms of Service</router-link>
-        <router-link @click.native="sidebarActive = false" class="link" to="/privacy">Privacy Policy</router-link>
+          >Plans &amp; Pricing</router-link
+        >
+        <router-link
+          @click.native="sidebarActive = false"
+          class="link"
+          to="/tos"
+          >Terms of Service</router-link
+        >
+        <router-link
+          @click.native="sidebarActive = false"
+          class="link"
+          to="/privacy"
+          >Privacy Policy</router-link
+        >
         <span class="text">Palash Sharma &COPY; 2019</span>
       </div>
     </div>
@@ -166,7 +217,7 @@ export default {
       navActive: false,
       sidebarActive: false,
       searchString: "",
-      projects: []
+      projects: [],
     };
   },
   computed: {
@@ -175,8 +226,8 @@ export default {
     },
     showMenu() {
       return this.$route.meta.showMenu || false;
-    }
-  }
+    },
+  },
 };
 </script>
 

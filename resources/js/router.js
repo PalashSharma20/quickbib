@@ -18,8 +18,8 @@ const router = new Router({
       component: Login,
       meta: {
         auth: false,
-        showMenu: true
-      }
+        showMenu: true,
+      },
     },
     {
       path: "/about",
@@ -27,8 +27,8 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "static" */ "./views/static/about"),
       meta: {
-        showMenu: true
-      }
+        showMenu: true,
+      },
     },
     {
       path: "/pricing",
@@ -36,8 +36,8 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "static" */ "./views/static/pricing"),
       meta: {
-        showMenu: true
-      }
+        showMenu: true,
+      },
     },
     {
       path: "/privacy",
@@ -45,8 +45,8 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "static" */ "./views/static/privacy"),
       meta: {
-        showMenu: true
-      }
+        showMenu: true,
+      },
     },
     {
       path: "/tos",
@@ -54,8 +54,8 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "static" */ "./views/static/tos"),
       meta: {
-        showMenu: true
-      }
+        showMenu: true,
+      },
     },
     {
       path: "/users/me",
@@ -63,8 +63,8 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "static" */ "./views/user/me"),
       meta: {
-        auth: true
-      }
+        auth: true,
+      },
     },
     {
       path: "/",
@@ -73,8 +73,8 @@ const router = new Router({
       meta: {
         page: "mine",
         auth: true,
-        searchBar: "Search Projects"
-      }
+        searchBar: "Search Projects",
+      },
     },
     {
       path: "/projects/shared",
@@ -83,8 +83,8 @@ const router = new Router({
       meta: {
         page: "shared",
         auth: true,
-        searchBar: "Search Projects"
-      }
+        searchBar: "Search Projects",
+      },
     },
     {
       path: "/projects/:project_id",
@@ -94,8 +94,8 @@ const router = new Router({
         title: false,
         auth: true,
         page: "view",
-        searchBar: "Search Citations"
-      }
+        searchBar: "Search Citations",
+      },
     },
     {
       path: "/projects/:project_id/export",
@@ -104,18 +104,8 @@ const router = new Router({
       meta: {
         title: false,
         auth: true,
-        page: "export"
-      }
-    },
-    {
-      path: "/projects/:project_id/recommendations/:recommendationPage?",
-      name: "Project Recommendations",
-      component: Project,
-      meta: {
-        title: false,
-        auth: true,
-        page: "recommendations"
-      }
+        page: "export",
+      },
     },
     {
       path: "/projects/:project_id/citations",
@@ -123,8 +113,8 @@ const router = new Router({
       component: Form,
       meta: {
         auth: true,
-        page: "add"
-      }
+        page: "add",
+      },
     },
     {
       path: "/projects/:project_id/citations/:citation_id",
@@ -132,8 +122,8 @@ const router = new Router({
       component: Form,
       meta: {
         auth: true,
-        page: "edit"
-      }
+        page: "edit",
+      },
     },
     {
       path: "/admin/analytics",
@@ -141,31 +131,31 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "analytics" */ "./views/admin/analytics"),
       meta: {
-        auth: true
-      }
+        auth: true,
+      },
     },
     {
       path: "/404",
       name: "404 Not Found",
       component: () =>
         import(/* webpackChunkName: "static" */ "./views/static/404"),
-      meta: {}
+      meta: {},
     },
     {
       path: "*",
-      redirect: "/404"
-    }
+      redirect: "/404",
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({
           x: 0,
-          y: 0
+          y: 0,
         });
       }, 300);
     });
-  }
+  },
 });
 
 router.beforeEach((to, from, next) => {

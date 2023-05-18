@@ -10,8 +10,10 @@ import VueRouter from "vue-router";
 import App from "./App";
 import router from "./router";
 import InstantSearch from "vue-instantsearch";
+import VueObserveVisibility from "vue-observe-visibility";
 
 Vue.use(InstantSearch);
+Vue.use(VueObserveVisibility);
 
 // Set Vue router
 Vue.router = router;
@@ -44,7 +46,12 @@ Vue.use(auth, {
   },
   options: {
     rolesKey: "type",
-    notFoundRedirect: { name: "user-account" },
+    logoutData: {
+      url: "auth/logout",
+      method: "POST",
+      redirect: "/login",
+      makeRequest: true,
+    },
   },
 });
 

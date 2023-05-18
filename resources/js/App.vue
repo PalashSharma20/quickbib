@@ -33,19 +33,23 @@ export default {
     return {
       title: "",
       theme: "light",
-      projects: null,
       addProjectDialog: {
         visible: false,
         submit: true,
       },
     };
   },
-  mounted() {
-    this.$auth.load().then(this.getProjects);
+  computed: {
+    user() {
+      return this.$auth.user()?.email;
+    },
   },
   watch: {
     title(val) {
       document.title = `${val} — QuickBib`;
+    },
+    user() {
+      this.getProjects();
     },
   },
   methods: {

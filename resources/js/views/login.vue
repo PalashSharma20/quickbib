@@ -10,12 +10,12 @@
             @click.prevent="login('Google')"
             >Continue with Google</a
           >
-          <a
+          <!-- <a
             class="login-button facebook"
             href="#"
             @click.prevent="login('Facebook')"
             >Continue with Facebook</a
-          >
+          > -->
         </div>
       </div>
     </div>
