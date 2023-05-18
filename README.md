@@ -1,4 +1,4 @@
-# QuickBib - Citations and Bibliography Generator
+# [QuickBib - Citations and Bibliography Generator](https://quickbib.palashsharma.com)
 
 QuickBib is perfect for students and teachers to create citations and bibliographies easily, smoothly, and hassle-free. The app follows the latest citation standards and styles and automatically fetches the required metadata from websites and books. 
 
