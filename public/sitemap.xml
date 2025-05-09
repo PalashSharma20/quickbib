@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://quickbib.palashsharma.com/</loc>
+    <loc>https://quickbib.palash.fyi/</loc>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://quickbib.palashsharma.com/about</loc>
+    <loc>https://quickbib.palash.fyi/about</loc>
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://quickbib.palashsharma.com/pricing</loc>
+    <loc>https://quickbib.palash.fyi/pricing</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://quickbib.palashsharma.com/tos</loc>
+    <loc>https://quickbib.palash.fyi/tos</loc>
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://quickbib.palashsharma.com/privacy</loc>
+    <loc>https://quickbib.palash.fyi/privacy</loc>
     <priority>0.60</priority>
   </url>
 </urlset>
